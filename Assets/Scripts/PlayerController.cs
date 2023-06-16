@@ -9,8 +9,8 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private Transform CameraRoot;
     [SerializeField] private Transform Camera;
     [SerializeField] private float UpperLimit = -40f;
-    [SerializeField] private float BottomLimit = 50f;
-    [SerializeField] private float MouseSensitivity = 20f;
+    [SerializeField] private float BottomLimit = 70f;
+    [SerializeField] private float MouseSensitivity = 21.9f;
 
     private Rigidbody _playerRigidbody;
 
@@ -28,7 +28,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 
     private const float _walkSpeed = 2f;
-
+    private const float _runSpeed = 6f;
 
     private Vector2 _currentVelocity;
 
@@ -57,7 +57,7 @@ public class NewBehaviourScript : MonoBehaviour
         if (!_hasAnimator) return;
 
 
-        float targetSpeed = _walkSpeed;
+        float targetSpeed = _inputManager.Run ? _runSpeed : _walkSpeed;
         if (_inputManager.Move == Vector2.zero) targetSpeed = 0.1f;
 
         _currentVelocity.x = Mathf.Lerp(_currentVelocity.x, _inputManager.Move.x * targetSpeed, AnimBlendSpeed * Time.fixedDeltaTime);
