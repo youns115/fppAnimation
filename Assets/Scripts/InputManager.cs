@@ -11,11 +11,13 @@ public class InputManager : MonoBehaviour {
     public Vector2 Move { get; private set; }
     public Vector2 Look { get; private set; }
     public bool Run { get; private set; }
+    public bool Crouch { get; private set; }
 
     private InputActionMap _currentMap;
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _runAction;
+    private InputAction _crouchAction;
 
     private void Awake() {
         HideCursor();
@@ -23,14 +25,17 @@ public class InputManager : MonoBehaviour {
         _moveAction = _currentMap.FindAction("Move");
         _lookAction = _currentMap.FindAction("Look");
         _runAction = _currentMap.FindAction("Run");
+        _crouchAction = _currentMap.FindAction("Crouch");
 
         _moveAction.performed += onMove;
         _lookAction.performed += onLook;
         _runAction.performed += onRun;
+        _crouchAction.started += onCrouch;
 
         _moveAction.canceled += onMove;
         _lookAction.canceled += onLook;
         _runAction.canceled += onRun;
+        _crouchAction.canceled += onCrouch;
     }
 
     private void HideCursor() {
@@ -48,6 +53,10 @@ public class InputManager : MonoBehaviour {
 
     private void onRun(InputAction.CallbackContext context) {
         Run = context.ReadValueAsButton();
+    }
+
+    private void onCrouch(InputAction.CallbackContext context) {
+        Crouch = context.ReadValueAsButton();
     }
 
     private void OnEnable() {
